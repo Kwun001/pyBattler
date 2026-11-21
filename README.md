@@ -191,13 +191,11 @@ The following account can be used to test normal player functionality:
 |----------|--------------|
 | Email    | c1@gmail.com |
 | Password | Ckw1234!     |
-
 ## Project Structure
 
 pyBattler/
-│
 ├── cards/
-│    ├── pyBattler Cards.pdf
+│   └── pyBattler Cards.pdf
 │
 ├── config/
 │   ├── db.js
