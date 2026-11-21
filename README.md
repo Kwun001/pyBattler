@@ -175,14 +175,12 @@ The following account can be used to access the admin interface:
 
 ### Admin Access Configuration
 
-The admin access setting determines whether an account can access the admin interface.
+The admin credential settings can be controlled in `config/settings.js`.
 
-- `TRUE` – Admin access enabled.
-- `FALSE` – Admin access disabled.
+- `true`: The admin's email and password cannot be changed through the normal account editing process.
+- `false`: The admin can edit their email and password like a normal account.
 
-To change an account's admin access, update its admin setting in the `User` table through phpMyAdmin.
-
-**Note:** Change the default admin password before deploying the application publicly.
+To change this setting, update `LOCK_ADMIN_CREDENTIALS` in `config/settings.js`.
 
 ## Player Demo Account
 
@@ -195,21 +193,35 @@ The following account can be used to test normal player functionality:
 
 ## Project Structure
 
-```text
 pyBattler/
+│
+├── cards/
+│    ├── pyBattler Cards.pdf
+│
 ├── config/
+│   ├── db.js
+│   └── settings.js
+│
 ├── database/
-│   └── pyBattlerDatabase.sql
+│   └── pybattler.sql
+│
 ├── public/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│       └── cards/
+│
 ├── routes/
+│
 ├── views/
-├── .env
+│   └── admin/
+│
 ├── .env.example
 ├── .gitignore
 ├── app.js
 ├── package.json
-└── package-lock.json
-```
+├── package-lock.json
+└── README.md
 
 ## Notes
 
