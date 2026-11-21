@@ -194,6 +194,7 @@ The following account can be used to test normal player functionality:
 
 ## Project Structure
 
+```text
 pyBattler/
 ├── cards/
 │   └── pyBattler Cards.pdf
@@ -222,6 +223,7 @@ pyBattler/
 ├── package.json
 ├── package-lock.json
 └── README.md
+```
 
 ## Notes
 
