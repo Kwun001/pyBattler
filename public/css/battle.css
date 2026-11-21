@@ -1,0 +1,422 @@
+/* battle.css  -  In-game pages: game board and question */
+
+/* 1. Game page */
+.game-shell {
+    width: 100%;
+    max-width: 90rem;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 0 3% 2.2rem;
+}
+
+.game-header {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 0.06rem solid var(--line);
+    gap: 2%;
+}
+
+.match-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.turn-label {
+    font-weight: 700;
+    font-size: 0.75rem;
+}
+
+.exit-link {
+    font-size: 0.75rem;
+    color: var(--muted);
+}
+
+.turn-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.9rem 0 1.5rem;
+}
+
+.turn-banner h1 { font-size: 1.9rem; }
+
+.turn-number {
+    font-family: 'Space Grotesk';
+    font-size: 3.75rem;
+    color: #dce7d8;
+    font-weight: 700;
+}
+
+.game-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 60%) minmax(0, 1fr);
+    gap: 2%;
+}
+
+.battle-board,
+.action-panel {
+    background: #fff;
+    border: 0.06rem solid var(--line);
+    border-radius: 1.25rem;
+    padding: 1.5rem 4%;
+    box-shadow: var(--shadow);
+}
+
+.board-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.4rem;
+}
+
+.board-top h2 { margin-bottom: 0.25rem; }
+
+.opponent-card {
+    border: 0.06rem solid var(--line);
+    border-radius: 0.9rem;
+    padding: 0.9rem 3%;
+    margin-bottom: 0.75rem;
+}
+
+.opponent-heading {
+    display: flex;
+    align-items: center;
+    gap: 2%;
+}
+
+.hp-number {
+    font-size: 1rem;
+    font-family: 'Space Grotesk';
+}
+
+.hp-number small {
+    font-size: 0.6rem;
+    color: var(--muted);
+}
+
+.hp-track {
+    height: 0.4rem;
+    background: #edf0ec;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    margin-top: 0.8rem;
+}
+
+.hp-track span {
+    display: block;
+    height: 100%;
+    background: #8bd45b;
+    border-radius: 1.25rem;
+}
+
+.hp-track span.hp-you { background: #9b84e7; }
+
+.you-card {
+    border-color: #c8baf7;
+    background: #fcfbff;
+}
+
+.next-player {
+    text-align: right;
+    font-size: 0.7rem;
+    color: var(--muted);
+    padding-top: 0.5rem;
+}
+
+/* Action panel */
+.action-panel h2 { font-size: 1.5rem; }
+
+.action-types {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 1.4rem 0;
+}
+
+.action-type {
+    display: flex;
+    align-items: center;
+    gap: 3%;
+    border: 0.06rem solid var(--line);
+    border-radius: 0.8rem;
+    padding: 0.75rem 3%;
+}
+
+.action-symbol {
+    flex: 0 0 2.4rem;
+    width: 2.4rem;
+    height: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.75rem;
+    font-size: 1.2rem;
+}
+
+.attack  .action-symbol { background: #ffe4df; color: #a84d3c; }
+.defend  .action-symbol { background: #e1edff; color: #3e68a0; }
+.recover .action-symbol { background: #e9f7d8; color: #48783b; }
+
+.action-type strong { font-size: 0.75rem; }
+
+.action-type p {
+    margin: 0.25rem 0 0;
+    font-size: 0.7rem;
+    color: var(--muted);
+}
+
+/* Score strip */
+.score-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2%;
+    margin-top: 1.25rem;
+}
+
+.score-strip > div {
+    background: #fff;
+    border: 0.06rem solid var(--line);
+    border-radius: 0.9rem;
+    padding: 1rem 8%;
+}
+
+.score-strip strong {
+    display: block;
+    font: 700 1.4rem 'Space Grotesk';
+}
+
+.score-strip strong small {
+    font: 500 0.7rem 'DM Sans';
+    color: var(--muted);
+}
+
+/* 2. Popup extras (base popup styles live in components.css) */
+.incoming-popup-card .btn-secondary {
+    font-weight: 700;
+}
+
+.incoming-popup-card .small-note {
+    margin: 1rem 0 0;
+    font-size: 0.75rem;
+}
+
+/* 3. Question page */
+.question-page {
+    width: 100%;
+    max-width: 45rem;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 1.9rem 3%;
+}
+
+.question-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.question-progress {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.6rem;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+}
+
+.question-progress > span:nth-child(2) {
+    font-weight: 700;
+    color: #42683b;
+}
+
+.progress-track {
+    grid-column: 1 / -1;
+    height: 0.3rem;
+    background: #e5ebe3;
+    border-radius: 0.6rem;
+    overflow: hidden;
+}
+
+.progress-track span {
+    display: block;
+    height: 100%;
+    background: #9cdb62;
+}
+
+.question-card {
+    background: #fff;
+    border: 0.06rem solid var(--line);
+    border-radius: 1.4rem;
+    padding: 2rem 5%;
+    box-shadow: var(--shadow);
+}
+
+.question-card h1 { font-size: 1.8rem; }
+
+.question-image {
+    display: block;
+    width: 100%;
+    max-height: 16rem;
+    object-fit: contain;
+    border-radius: 0.75rem;
+    margin: 0 0 1rem;
+    background: #f5f7f4;
+}
+
+.question-card > .subtitle { margin-bottom: 1.5rem; }
+
+.question-card .helper-text {
+    text-align: center;
+    margin-bottom: 0;
+}
+
+.target-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.target-selection label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #344436;
+}
+
+.question-image {
+    display: block;
+    max-width: 100%;
+    max-height: 20rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    margin: 1.5rem auto;
+    border-radius: 0.75rem;
+}
+
+.question-image[hidden] {
+    display: none;
+}
+
+.question-text {
+    width: 100%;
+    max-width: 100%;
+    margin: 1.5rem 0;
+    padding: 1.25rem;
+    background: #f5f7f5;
+    border: 0.06rem solid #e0e7e0;
+    border-radius: 0.75rem;
+    color: #344436;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    text-align: left;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    overflow-x: auto;
+}
+
+/* Custom dropdown (!important kept so the browser's default select styling never wins) */
+.target-selection select,
+#targetSection select#targetPlayer {
+    display: block !important;
+    width: 100% !important;
+    min-height: 3.25rem;
+    padding: 0.875rem 2.75rem 0.875rem 3% !important;
+    border: 0.06rem solid #d8e1d4 !important;
+    border-radius: 0.75rem !important;
+    background-color: #fff !important;
+    color: #344436 !important;
+    font-size: 0.875rem !important;
+    font-family: inherit !important;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(30, 50, 30, 0.05);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23344436' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 1rem center !important;
+    background-size: 1rem !important;
+}
+
+.target-selection select:focus,
+#targetSection select#targetPlayer:focus {
+    border-color: #91c86b !important;
+    box-shadow: 0 0 0 0.2rem rgba(145, 200, 107, 0.18) !important;
+}
+
+.target-selection select option {
+    color: #344436;
+    background: #fff;
+    padding: 0.75rem;
+}
+
+.answer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.25rem;
+}
+
+.answer-option {
+    display: flex;
+    align-items: center;
+    gap: 3%;
+    border: 0.06rem solid var(--line);
+    border-radius: 0.75rem;
+    padding: 0.8rem 3%;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.answer-option:has(input:checked) {
+    background: #f3f9ed;
+    border-color: #91c86b;
+}
+
+.answer-option input { accent-color: #497b37; }
+
+.option-letter {
+    flex: 0 0 1.75rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f4ef;
+    border-radius: 0.5rem;
+    color: #68756a;
+    font-size: 0.7rem;
+}
+
+/* 4. Responsive */
+@media (max-width: 64rem) {
+    .game-layout { grid-template-columns: 100%; gap: 1.4rem; }
+}
+
+@media (max-width: 53rem) {
+    .game-shell { padding: 0 4% 1.5rem; }
+    .turn-number { font-size: 2.6rem; }
+}
+
+@media (max-width: 32.5rem) {
+    .match-meta { gap: 0.4rem; }
+    .turn-banner h1 { font-size: 1.5rem; }
+    .turn-number { display: none; }
+    .score-strip { grid-template-columns: 100%; gap: 0.9rem; }
+    .game-header .brand { font-size: 1rem; }
+
+    .question-page { padding: 1.25rem 3%; }
+    .question-card { padding: 1.4rem 5%; }
+    .question-card h1 { font-size: 1.5rem; }
+    .question-header { margin-bottom: 1.5rem; }
+}
+

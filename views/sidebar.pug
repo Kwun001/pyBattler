@@ -1,0 +1,44 @@
+aside.sidebar
+    a.brand(href="/rooms")
+        span.brand-mark py
+        span pyBattler
+
+    nav.main-nav
+        if currentUser && currentUser.role === 'admin'
+            a.nav-link(class=activePage === 'dashboard' ? 'active' : '', href="/admin")
+                | Dashboard
+            a.nav-link(class=activePage === 'games' ? 'active' : '', href="/admin/games")
+                | Game history
+            a.nav-link(class=activePage === 'players' ? 'active' : '', href="/admin/players")
+                | Players
+            a.nav-link(class=activePage === 'questions' ? 'active' : '', href="/admin/questions")
+                | Questions
+            a.nav-link(class=activePage === 'profile' ? 'active' : '', href="/profile")
+                | My profile
+        else
+            a#playLink.nav-link(class=activePage === 'rooms' ? 'active' : '', href="/rooms")
+                | Play
+
+            if currentUser
+                a.nav-link(class=activePage === 'profile' ? 'active' : '', href="/profile")
+                    | My profile
+            else if sessionGuest
+                a#guestProfileLink.nav-link(href="#guestProfilePopup")
+                    | My profile
+            else
+                a.nav-link(class=activePage === 'profile' ? 'active' : '', href="/profile")
+                    | My profile
+
+    .sidebar-bottom(class=activePage === 'profile' ? 'profile-logout' : '')
+        p.small-label YOUR JOURNEY
+        p Your battles and progress in one place.
+        form(action="/logout", method="POST")
+            button.btn.btn-primary.btn-full(type="submit") Log out
+
+if sessionGuest
+    #guestProfilePopup.guest-popup(style="display: none")
+        .guest-popup-content
+            h2 Create your account
+            p Register an account to view your profile, game history and save your progress.
+            a.btn.btn-primary.btn-full(href="/signup") Register
+            button#closeGuestPopup.btn.btn-light.btn-full(type="button") Go back

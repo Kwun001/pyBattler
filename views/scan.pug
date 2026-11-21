@@ -1,0 +1,35 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/flow.css")
+
+
+block content
+    main.flow-page
+        a.brand(href="/rooms")
+            span.brand-mark py
+            span pyBattler
+        
+        a.back-link(href="/game/" + room_id) ← Back to battle
+
+        section.flow-card
+
+            p.eyebrow CARD SCANNING
+            h1 Scan your physical card
+            p.subtitle Use the QR code printed on your pyBattler card. The question will appear after the card is identified.
+
+            .scan-preview
+                #reader
+
+            .scan-actions
+                button#startScan.btn.btn-primary(type="button") Start camera
+                button#stopScan.btn.btn-light(type="button", disabled, hidden) Stop camera
+            p#scanMessage.helper-text Click Start camera to scan your card.
+        
+        p.flow-footer pyBattler · Learn Python by playing
+
+block scripts
+  script(src="https://unpkg.com/html5-qrcode")
+  script.
+    window.roomId = !{JSON.stringify(room_id)};
+  script(src="/js/scan.js")

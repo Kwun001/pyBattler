@@ -1,0 +1,51 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+    link(rel="stylesheet", href="/css/admin.css")
+
+block content
+    - const activePage = 'dashboard'
+
+    .app-shell
+        include ../sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow ADMIN
+                    h1 Dashboard
+                    p.subtitle Overview of players, games and questions.
+
+            .stats-grid.admin-stats-grid
+                .stat-card
+                    span.small-label TOTAL PLAYERS
+                    strong= stats.users
+
+                .stat-card
+                    span.small-label QUESTIONS
+                    strong= stats.questions
+
+                .stat-card
+                    span.small-label COMPLETED GAMES
+                    strong= stats.completedGames
+
+                .stat-card
+                    span.small-label GAMES IN PROGRESS
+                    strong= stats.activeGames
+
+            .admin-quick-links
+                a.panel.admin-quick-link(href="/admin/games")
+                    h2 Game history
+                    p.subtitle Browse every completed game and its leaderboard.
+
+                a.panel.admin-quick-link(href="/admin/players")
+                    h2 Players
+                    p.subtitle Look up a player and review their game history.
+
+                a.panel.admin-quick-link(href="/admin/questions")
+                    h2 Questions
+                    p.subtitle Add, edit, delete and illustrate quiz questions.
+
+block scripts
+    script(src="/js/sidebar.js")

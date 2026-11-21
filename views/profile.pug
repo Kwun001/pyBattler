@@ -1,0 +1,192 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+
+
+block content
+    - const activePage = 'profile'
+
+    .app-shell
+        include sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow PLAYER PROFILE
+                    h1 My profile
+                    p.subtitle Review your stats and game history.
+                
+                if !(currentUser && currentUser.role === 'admin')
+                    a.btn.btn-light(href="/rooms") Back to play
+
+            // Profile information
+            section.profile-hero
+                span.profile-avatar= user.username.charAt(0).toUpperCase()
+                div
+                    h2= user.username
+                    p.subtitle= user.email
+
+            // Update messages
+            if message
+                .profile-message(class=message === 'updated' ? 'success' : 'error')
+                    case message
+                        when 'updated'
+                            | Your profile has been updated successfully.
+                        when 'wrong_password'
+                            | Your current password is incorrect.
+                        when 'empty_fields'
+                            | Username and email cannot be empty.
+                        when 'invalid_email'
+                            | Please enter a valid email address.
+                        when 'account_exists'
+                            | Username or email is already being used.
+                        when 'weak_password'
+                            | Password must contain at least 8 characters, including uppercase, lowercase, a number and a symbol.
+                        when 'password_mismatch'
+                            | New password and confirmation do not match.
+                        default
+                            | Unable to update your profile. Please try again.
+
+            // Edit profile dropdown
+            details.panel.edit-profile-dropdown
+                summary.panel-heading
+                    div
+                        h2 Edit profile
+                        p.subtitle Update your account information.
+                    span.dropdown-icon
+
+                form#profileForm.edit-profile-form(action="/profile/update", method="POST", novalidate)
+                    - const adminLocked = currentUser && currentUser.role === 'admin' && lockAdminCredentials
+                    .form-group
+                        label(for="username") Username
+                        input#username(
+                            type="text",
+                            name="username",
+                            value=user.username,
+                            required
+                        )
+                        
+                    .form-group
+                        label(for="email") Email
+                        input#email(
+                            type="email",
+                            name="email",
+                            value=user.email,
+                            required,
+                            readonly=adminLocked ? true : undefined
+                        )
+                        p#emailFeedback.validation-message
+                        if adminLocked
+                            p.helper-text Email is locked for the admin demo account.
+
+                    .form-divider
+
+                    h3 Change password
+                    p.subtitle Leave the new password fields empty if you do not want to change it.
+
+                    .form-group
+                        label(for="currentPassword") Current password
+                        .password-field
+                            input#currentPassword(
+                                type="password",
+                                name="currentPassword",
+                                placeholder="Enter your current password",
+                                required
+                            )
+                            button.password-toggle-btn(type="button", aria-label="Show password") Show
+
+                    .form-group
+                        label(for="newPassword") New password
+                        .password-field
+                            input#newPassword(
+                                type="password",
+                                name="newPassword",
+                                placeholder="At least 8 characters",
+                                minlength="8",
+                                readonly=adminLocked ? true : undefined
+                            )
+                            button.password-toggle-btn(type="button", aria-label="Show password") Show
+                        p#passwordFeedback.validation-message
+                        if adminLocked
+                            p.helper-text Password is locked for the admin demo account.
+                        else
+                            p.password-requirements
+                                | If changing your password, it must contain:
+                                br
+                                | At least 8 characters
+                                br
+                                | One uppercase and one lowercase letter
+                                br
+                                | One number
+                                br
+                                | One symbol
+
+                    .form-group
+                        label(for="confirmPassword") Confirm new password
+                        .password-field
+                            input#confirmPassword(
+                                type="password",
+                                name="confirmPassword",
+                                placeholder="Confirm your new password",
+                                readonly=adminLocked ? true : undefined
+                            )
+                            button.password-toggle-btn(type="button", aria-label="Show password") Show
+                        p#confirmPasswordFeedback.validation-message
+
+                    button.btn.btn-primary(type="submit") Save changes
+                    
+            // Password validation popup
+            #profileValidationPopup.guest-popup(style="display: none")
+                .guest-popup-content(role="alertdialog", aria-modal="true")
+                    h2 Please check your password
+                    p#profileValidationMessage
+                    button#closeProfileValidation.btn.btn-primary.btn-full(type="button") OK
+                    
+            // Player statistics and game history — admins don't play, so these are hidden for them
+            if !(currentUser && currentUser.role === 'admin')
+                .stats-grid
+                    .stat-card
+                        span.small-label GAMES PLAYED
+                        strong= statistics.total_games
+
+                    .stat-card
+                        span.small-label TOTAL SCORE
+                        strong= statistics.total_score
+
+                section.panel
+                    .panel-heading
+                        div
+                            h2 Game history
+                            p.subtitle View the results of your previous battles.
+
+                    .history-table-container
+                        if history.length > 0
+                            table.history-table
+                                thead
+                                    tr
+                                        th Room ID
+                                        th Created Time
+                                        th Status
+                                        th Score
+                                        th Action
+                                tbody
+                                    each game in history
+                                        tr
+                                            td= game.room_id
+                                            td= new Date(game.created_at).toLocaleString('en-MY', { dateStyle: 'medium', timeStyle: 'short' })
+                                            td
+                                                if game.player_status === 'Alive'
+                                                    span.history-status.status-alive Alive
+                                                else
+                                                    span.history-status.status-eliminated Eliminated
+                                            td.score-cell= game.score + ' pts'
+                                            td
+                                                a.btn.btn-light.btn-view(href='/leaderboard/' + game.room_id) View
+                        else
+                            p.empty-history You have not played any games yet.
+
+block scripts
+    script(src="/js/sidebar.js")
+    script(src="/js/profile.js")
+    script(src="/js/password-toggle.js")

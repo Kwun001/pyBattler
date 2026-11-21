@@ -1,0 +1,44 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/battle.css")
+
+
+block content
+    main.question-page(data-room-id=room_id)
+        header.question-header
+            a.brand(href="/rooms")
+                span.brand-mark py
+                span pyBattler
+            span.round-pill CARD QUESTION
+
+        .question-progress
+            span Question 1 of 1
+            span +10 points for a successful action
+            .progress-track
+                span(style="width:100%")
+
+        section.question-card
+            p.eyebrow PYTHON CONTROL FLOW
+            pre#questionText.question-text Loading question...
+            img#questionImage.question-image(src="", alt="Question image", hidden)
+            p.subtitle Choose one answer. You only have one attempt.
+
+            form#answerForm
+                input#questionId(type="hidden", name="question_id")
+                .target-selection#targetSection(style="display:none")
+                    label(for="targetPlayer") Select target
+                    select#targetPlayer(name="target_id")
+                        option(value="") Select a player
+                .answer-list#answerOptions
+                button.btn.btn-primary.btn-full(type="submit") Submit answer
+
+            p#answerMessage.helper-text Loading question...
+
+    #resultPopup.result-popup(aria-hidden="true")
+        .result-popup-card(role="dialog", aria-modal="true", aria-labelledby="resultPopupTitle")
+            h2#resultPopupTitle Action Result
+            p#resultPopupMessage
+
+block scripts
+    script(src="/js/question.js")

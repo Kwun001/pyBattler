@@ -1,0 +1,100 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+
+
+block content
+    - const activePage = 'rooms'
+
+    .app-shell
+        include sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow GAME LOBBY
+                    h1 Let’s play, Player!
+                    p.subtitle Join your friends or create a new room.
+
+                if currentUser
+                    a.avatar-link(href="/profile")
+                        = currentUser.username.charAt(0).toUpperCase()
+                else if sessionGuest
+                    a.avatar-link(href="#guestProfilePopup")
+                        = sessionGuest.guest_name.charAt(0).toUpperCase()
+                else
+                    a.avatar-link(href="/profile") ?
+
+            section.welcome-banner
+                div
+                    span.banner-tag PYTHON CONTROL FLOW
+                    h2 Your next move starts with a question.
+                    p Scan a physical card and answer correctly to execute its action.
+                .banner-code
+                    span if answer == correct:
+                    strong &nbsp;&nbsp; execute_action()
+
+            .room-columns
+                section.panel
+                    .panel-heading
+                        div
+                            h2 Join a room
+                            p.subtitle Enter the room code shared by the host.
+
+                    form#joinRoomForm(action="/rooms/join", method="post")
+                        label(for="roomCode") Room code
+                        input#roomCode(
+                            type="text",
+                            name="room_code",
+                            placeholder="e.g. ABC123",
+                            maxlength="6",
+                            required,
+                            autocomplete="off"
+                        )
+                        button.btn.btn-primary.btn-full(type="submit") Join room
+
+                section.panel
+                    .panel-heading
+                        div
+                            h2 Create a room
+                            p.subtitle Start a new battle with your group.
+
+                    .room-summary
+                        span.summary-dot
+                        div
+                            strong New battle room
+                            p Up to 4 players · Turn-based
+
+                    form(action="/rooms/create", method="post")
+                        button.btn.btn-light.btn-full(type="submit") Create room
+
+            section.panel.how-panel
+                h2 How to play
+                .steps
+                    div.step
+                        span.step-number 01
+                        strong Pick a physical card
+                        p Choose Attack, Defense or Recovery.
+
+                    div.step
+                        span.step-number 02
+                        strong Scan its QR code
+                        p Open the linked Python question.
+
+                    div.step
+                        span.step-number 03
+                        strong Answer to act
+                        p Correct answers execute the card action.
+
+    // Room error popup
+    if joinErrorMessage
+        #roomErrorOverlay.room-error-overlay
+            .room-error-popup(role="alertdialog", aria-modal="true", aria-labelledby="roomErrorTitle")
+                h2#roomErrorTitle Room Unavailable
+                p= joinErrorMessage
+                button#roomErrorOk.btn.btn-primary(type="button") OK
+
+block scripts
+    script(src="/js/sidebar.js")
+    script(src="/js/rooms.js")

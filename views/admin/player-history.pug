@@ -1,0 +1,49 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+    link(rel="stylesheet", href="/css/admin.css")
+
+block content
+    - const activePage = 'players'
+
+    .app-shell
+        include ../sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow ADMIN · PLAYER HISTORY
+                    h1= player.username
+                    p.subtitle= player.email
+                a.btn.btn-light(href="/admin/players") Back to players
+
+            section.panel
+                .history-table-container
+                    if history.length > 0
+                        table.history-table
+                            thead
+                                tr
+                                    th Room ID
+                                    th Rank
+                                    th Score
+                                    th Status
+                                    th Action
+                            tbody
+                                each game in history
+                                    tr
+                                        td= game.room_id
+                                        td= game.rank || '-'
+                                        td.score-cell= game.score + ' pts'
+                                        td
+                                            if game.is_alive
+                                                span.history-status.status-alive Alive
+                                            else
+                                                span.history-status.status-eliminated Eliminated
+                                        td
+                                            a.btn.btn-light.btn-view(href='/admin/games/' + game.room_id) View game
+                    else
+                        p.empty-history This player has not played any games yet.
+
+block scripts
+    script(src="/js/sidebar.js")

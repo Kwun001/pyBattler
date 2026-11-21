@@ -1,0 +1,122 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/battle.css")
+
+block content
+    .game-shell(data-room-id=room.room_id data-participant-id=currentParticipant.participant_id)
+        header.game-header
+            a.brand(href="/rooms")
+                span.brand-mark py
+                span pyBattler
+
+            .match-meta
+                span.round-pill ROUND #{room.current_round}
+                span.turn-label Game in progress
+
+            a.exit-link(href="/rooms") Exit game
+
+        main.game-main
+            section.turn-banner
+                div
+                    p.eyebrow GAME IN PROGRESS
+                    h1 Welcome, #{currentParticipant.player_name}.
+                    p.subtitle#turnStatus Checking current turn...
+
+                .turn-number #{room.current_round}
+
+            .game-layout
+                section.battle-board
+                    .board-top
+                        div
+                            h2 Battle arena
+                            p.subtitle Room #{room.room_code}
+                        span.live-pill ● LIVE
+
+                    each participant in participants
+                        .opponent-card(class=(currentParticipant && participant.participant_id === currentParticipant.participant_id ? 'you-card' : '') + (participant.hp <= 0 ? ' eliminated-card' : '') data-player-id=participant.participant_id)
+                            .opponent-heading
+                                span.player-avatar.avatar-blue= participant.player_name.charAt(0).toUpperCase()
+                                div
+                                    strong= participant.player_name
+                                    span
+                                        if currentParticipant && participant.participant_id === currentParticipant.participant_id
+                                            | Your player
+                                        else
+                                            | Opponent
+
+                                strong.hp-number
+                                    span.hp-number-value= participant.hp
+                                    small HP
+
+                            .hp-track
+                                span(style="width: " + Math.max(0, Math.min(100, participant.hp)) + "%")
+
+                            p.small-note.player-status-note(style=participant.hp > 0 ? 'display:none' : '')
+                                | Eliminated
+
+                    .next-player
+                        | Players in room:
+                        strong= participants.length
+
+                aside.action-panel
+                    p.eyebrow PLAY A CARD
+                    h2 Scan your card
+                    p.subtitle Your physical card determines the action. The QR code opens its question.
+
+                    .action-types
+                        div.action-type.attack
+                            span.action-symbol ⚔
+                            div
+                                strong Attack
+                                p Deal damage to an opponent
+
+                        div.action-type.defend
+                            span.action-symbol ◈
+                            div
+                                strong Defense
+                                p Block an incoming attack
+
+                        div.action-type.recover
+                            span.action-symbol +
+                            div
+                                strong Recovery
+                                p Restore your HP
+
+                    a#scanCardButton.btn.btn-primary.btn-full(href="/scan/" + room.room_id) Scan card QR
+                    p.small-note Have your physical pyBattler card ready.
+
+            section.score-strip
+                div
+                    span.small-label YOUR SCORE
+                    strong
+                        span#myScore= currentParticipant.score
+                        small pts
+
+                div
+                    span.small-label ACTIONS SUCCEEDED
+                    strong#successfulActions= successfulActions
+
+                div
+                    span.small-label PLAYERS ALIVE
+                    strong#aliveCount #{aliveCount}/#{participants.length}
+
+    // Incoming attack popup
+    #incomingAttackPopup.incoming-popup(aria-hidden="true")
+        .incoming-popup-card(role="dialog", aria-modal="true", aria-labelledby="incomingAttackTitle")
+            h2#incomingAttackTitle You are being attacked!
+            p#incomingAttackMessage An opponent has selected you as their target.
+            a#defendAttackButton.btn.btn-primary.btn-full(href="/scan/" + room.room_id) Scan Defense Card
+            button#acceptAttackButton.btn.btn-secondary.btn-full(type="button") Accept Attack (-10 HP)
+            p.small-note You can accept the attack if you do not have a Defense card.
+
+    // Final game result popup
+    #gameResultPopup.game-result-popup(aria-hidden="true")
+        .game-result-card(role="dialog", aria-modal="true", aria-labelledby="gameResultTitle")
+            h2#gameResultTitle Game Over
+            p#gameResultMessage
+            p#gameResultDetails
+            a.btn.btn-primary.btn-full(href="/rooms") Back to Rooms
+
+block scripts
+    script(src="/js/game.js")

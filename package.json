@@ -1,0 +1,19 @@
+{
+  "name": "pybattler",
+  "version": "1.0.0",
+  "description": "Python educational card battle game",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "body-parser": "^2.2.0",
+    "dotenv": "^18.0.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "multer": "^2.5.0",
+    "mysql2": "^3.14.0",
+    "pug": "^3.0.3"
+  }
+}

@@ -1,0 +1,74 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+    link(rel="stylesheet", href="/css/admin.css")
+
+block content
+    - const activePage = 'games'
+
+    .app-shell
+        include ../sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow ADMIN · MATCH SUMMARY
+                    h1 Battle leaderboard
+                    p.subtitle Final standings for room #{room.room_id}.
+                span.status-pill= room.status === 'Completed' ? 'Match complete' : 'Match in progress'
+
+            if winner
+                section.winner-banner
+                    p.eyebrow MATCH WINNER
+                    h2= winner.player_name
+                    p.subtitle Last player standing
+                    strong.winner-score
+                        | #{winner.score}
+                        small pts
+
+            else if isDraw
+                section.winner-banner
+                    p.eyebrow MATCH RESULT
+                    h2 Game Draw
+                    p.subtitle All players have been eliminated.
+                    strong.winner-score No winner
+
+            else
+                section.winner-banner
+                    p.eyebrow MATCH SUMMARY
+                    h2 Match in progress
+                    p.subtitle The final winner has not been determined.
+
+            section.panel
+                .panel-heading
+                    div
+                        h2 Final rankings
+                        p.subtitle Ranked by winner status, score and remaining HP.
+
+                .ranking-list
+                    if participants.length > 0
+                        each participant, index in participants
+                            .ranking-row(class=index === 0 && winner ? 'first' : '')
+                                span.rank-number= index + 1
+
+                                span.player-avatar.avatar-blue
+                                    = participant.player_name.charAt(0).toUpperCase()
+
+                                div.player-details
+                                    strong= participant.player_name
+                                    if Number(participant.hp) > 0
+                                        span #{participant.hp} HP remaining
+                                    else
+                                        span 0 HP · Eliminated
+
+                                strong.rank-score
+                                    | #{participant.score} pts
+                    else
+                        p.subtitle No participants found.
+
+                .leaderboard-actions
+                    a.btn.btn-light(href="/admin/games") Back to game history
+
+block scripts
+    script(src="/js/sidebar.js")

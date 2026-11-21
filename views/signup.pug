@@ -1,0 +1,67 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/auth.css")
+
+block content
+    main.auth-page
+        section.auth-card
+            a.brand(href="/login")
+                span.brand-mark py
+                span pyBattler
+
+            p.eyebrow YOUR NEXT BATTLE STARTS HERE
+            h1 Create account
+            p.subtitle Save your profile, scores and game history.
+
+            form#signupForm.auth-form(action="/signup", method="post", novalidate)
+                label(for="username") Username
+                input#username(type="text", name="username", placeholder="Choose a username", required, minlength="3")
+
+                label(for="email") Email
+                input#email(type="email", name="email", placeholder="you@example.com", required)
+                p#emailFeedback.validation-message
+
+                label(for="password") Password
+                .password-field
+                    input#password(type="password", name="password", placeholder="At least 8 characters", required, minlength="8")
+                    button.password-toggle-btn(type="button", aria-label="Show password") Show
+                p#passwordFeedback.validation-message
+                p.password-requirements
+                    | Password must contain:
+                    br
+                    | • At least 8 characters
+                    br
+                    | • One uppercase and one lowercase letter
+                    br
+                    | • One number
+                    br
+                    | • One symbol
+
+                button.btn.btn-primary(type="submit") Create account
+
+            p.auth-foot Already registered? #[a(href="/login") Log in]
+
+        aside.auth-side
+            .side-badge PLAYER PROFILE
+            h2 Keep your progress.
+            p Track wins, total score and your previous battles in one place.
+
+            ul.check-list
+                li Save your username
+                li Review match history
+                li Compare leaderboard scores
+
+    // Signup validation popup
+    #signupValidationPopup.guest-popup(
+        style=error ? 'display: flex' : 'display: none',
+        data-show=error ? 'true' : 'false'
+    )
+        .guest-popup-content(role="alertdialog", aria-modal="true")
+            h2 Please check your details
+            p#signupValidationMessage= error || ''
+            button#closeSignupPopup.btn.btn-primary.btn-full(type="button") OK
+
+block scripts
+    script(src="/js/signup.js")
+    script(src="/js/password-toggle.js")

@@ -1,0 +1,84 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/auth.css")
+
+block content
+    main.auth-page
+        section.auth-card
+            a.brand(href="/login")
+                span.brand-mark py
+                span pyBattler
+
+            p.eyebrow LEARN PYTHON BY PLAYING
+            h1 Welcome back
+            p.subtitle Log in to continue your battle.
+
+            form#loginForm.auth-form(action="/login", method="post", novalidate)
+                label(for="email") Email
+                input#email(type="email", name="email", placeholder="you@example.com", required)
+                p#emailFeedback.validation-message
+
+                label(for="password") Password
+                .password-field
+                    input#password(type="password", name="password", placeholder="Enter your password", required)
+                    button.password-toggle-btn(type="button", aria-label="Show password") Show
+                p#passwordFeedback.validation-message
+
+                button.btn.btn-primary(type="submit") Log in
+
+            .auth-divider or
+
+            form#guestForm.auth-form(action="/guest", method="post")
+                .form-group
+                    label(for="guest_name") Guest name
+                    input#guest_name.form-input(
+                        type="text",
+                        name="guest_name",
+                        placeholder="Enter your name",
+                        required
+                    )
+
+                button.btn.btn-light.btn-full(type="submit") Continue as guest
+
+            p.auth-foot Don't have an account? #[a(href="/signup") Create an account]
+
+        aside.auth-side
+            .side-badge PYTHON CONTROL FLOW
+            h2 Think. Answer. Battle.
+            p Scan your physical game card, solve a Python question, and make your next move count.
+
+            .mini-stats
+                div
+                    strong 4
+                    span Players
+                div
+                    strong 100
+                    span Starting HP
+                div
+                    strong +10
+                    span Correct answer
+
+    // Login validation popup
+    #loginValidationPopup.guest-popup(
+        style="display: none",
+        data-show=error ? 'true' : 'false')
+
+        .guest-popup-content(role="alertdialog", aria-modal="true")
+            h2 Please check your details
+            p#loginValidationMessage= error || ''
+            button#closeLoginPopup.btn.btn-primary.btn-full(type="button") OK
+    
+    // Registration success popup
+    #registrationSuccessPopup.guest-popup(
+        style="display: none",
+        data-show=registered === '1' ? 'true' : 'false'
+    )
+        .guest-popup-content(role="alertdialog", aria-modal="true")
+            h2 Account created successfully!
+            p Your account has been registered. You can now log in.
+            button#closeRegistrationPopup.btn.btn-primary.btn-full(type="button") OK
+
+block scripts
+    script(src="/js/login.js")
+    script(src="/js/password-toggle.js")        

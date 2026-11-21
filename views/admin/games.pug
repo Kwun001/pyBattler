@@ -1,0 +1,45 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+    link(rel="stylesheet", href="/css/admin.css")
+
+block content
+    - const activePage = 'games'
+
+    .app-shell
+        include ../sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow ADMIN
+                    h1 Game history
+                    p.subtitle All completed games, newest first.
+                a.btn.btn-light(href="/admin") Back to dashboard
+
+            section.panel
+                .history-table-container
+                    if games.length > 0
+                        table.history-table
+                            thead
+                                tr
+                                    th Room ID
+                                    th Room code
+                                    th Players
+                                    th Winner
+                                    th Action
+                            tbody
+                                each game in games
+                                    tr
+                                        td= game.room_id
+                                        td= game.room_code
+                                        td= game.player_count
+                                        td= game.winner_name || 'Draw'
+                                        td
+                                            a.btn.btn-light.btn-view(href='/admin/games/' + game.room_id) View
+                    else
+                        p.empty-history No completed games yet.
+
+block scripts
+    script(src="/js/sidebar.js")

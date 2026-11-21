@@ -1,0 +1,306 @@
+/* components.css  -  Reusable UI pieces (loaded on every page via layout.pug) */
+
+/* 1. Forms & validation */
+.auth-form label,
+.panel label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    margin-top: 0.4rem;
+}
+
+.auth-form input,
+.panel input {
+    width: 100%;
+    height: 2.8rem;
+    border: 0.06rem solid #dce3dd;
+    border-radius: 0.6rem;
+    background: #fbfcfb;
+    padding: 0 3%;
+    outline: none;
+}
+
+.auth-form input:focus,
+.panel input:focus {
+    border-color: #80b94b;
+    box-shadow: 0 0 0 0.2rem rgba(185, 243, 106, .22);
+}
+
+/* Validation state (used by login, sign-up and profile forms) */
+.auth-form input.valid,
+.form-group input.valid {
+    border: 0.06rem solid var(--success);
+}
+
+.auth-form input.invalid,
+.form-group input.invalid {
+    border: 0.06rem solid var(--danger);
+}
+
+.validation-message {
+    font-size: 0.8rem;
+    margin: 0.4rem 0 0.75rem;
+}
+
+.valid-message   { color: var(--success); }
+.invalid-message { color: var(--danger); }
+
+.password-requirements {
+    font-size: 0.8rem;
+    color: #777;
+    line-height: 1.6;
+    margin: 0.25rem 0 1rem;
+}
+
+/*password toggle*/
+.password-field {
+    position: relative;
+}
+
+.password-field input {
+    padding-right: 3.5rem;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #52783f;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0.3rem 0.4rem;
+}
+
+/* Stacked label + input group (profile form, guest form) */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    width: 100%;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.form-group input {
+    width: 100%;
+    min-width: 0;
+    padding: 0.75rem 3%;
+    border: 0.06rem solid var(--line);
+    border-radius: 0.6rem;
+    background: #fff;
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.form-group input:focus {
+    border-color: #47783a;
+    box-shadow: 0 0 0 0.1rem rgba(71, 120, 58, 0.12);
+}
+
+/* 2. Panel */
+.panel {
+    background: #fff;
+    border: 0.06rem solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.5rem 3%;
+    box-shadow: var(--shadow);
+}
+
+.panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3%;
+    margin-bottom: 1.4rem;
+}
+
+.panel-heading h2 {
+    margin-bottom: 0;
+}
+
+.panel-heading .subtitle {
+    font-size: 0.75rem;
+}
+
+/* 3. Pills & tags */
+.status-pill,
+.live-pill,
+.round-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 6.25rem;
+    padding: 0.5rem 0.7rem;
+    background: #eff7e8;
+    color: #42683b;
+    font-size: 0.6rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.round-pill { background: #e9f5dc; }
+.live-pill  { background: #f1f8ec; }
+
+/* Small badge used on the rooms banner and the login/sign-up side card */
+.banner-tag,
+.side-badge {
+    display: inline-flex;
+    align-self: flex-start;
+    background: #e0ffb8;
+    color: #27432c;
+    border-radius: 6.25rem;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.5rem;
+    letter-spacing: 0.06rem;
+    font-weight: 700;
+}
+
+/* 4. Player avatar & name block */
+.player-avatar {
+    width: 2.4375rem;
+    height: 2.4375rem;
+    flex: 0 0 2.4375rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.8125rem;
+    font-weight: 700;
+    color: #28362c;
+}
+
+.avatar-purple { background: var(--purple); }
+.avatar-blue   { background: var(--blue); }
+.avatar-orange { background: var(--orange); }
+.avatar-green  { background: #e3f7cf; }
+
+.player-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.player-details strong {
+    font-size: 0.8125rem;
+}
+
+.player-details span {
+    font-size: 0.6875rem;
+    color: var(--muted);
+}
+
+/* 5. Popups / modals  */
+/* Shared full-screen overlay. Each popup keeps its own class because the
+   JavaScript toggles them (".show" class or inline display). */
+.guest-popup,
+.incoming-popup,
+.game-result-popup,
+.result-popup,
+.room-error-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 4%;
+    overflow-y: auto;
+    background: rgba(20, 30, 20, 0.6);
+}
+
+/* hidden until shown */
+.guest-popup,
+.incoming-popup,
+.game-result-popup,
+.result-popup {
+    display: none;
+}
+
+.incoming-popup.show,
+.game-result-popup.show,
+.result-popup.show,
+.room-error-overlay {
+    display: flex;
+}
+
+.game-result-popup { z-index: 1100; background: rgba(20, 30, 20, 0.7); }
+.room-error-overlay { z-index: 9999; background: rgba(0, 0, 0, 0.65); }
+
+/* Shared popup card */
+.guest-popup-content,
+.incoming-popup-card,
+.game-result-card,
+.result-popup-card,
+.room-error-popup {
+    width: 100%;
+    max-width: 25rem;
+    max-height: 96%;
+    margin: auto;
+    overflow-y: auto;
+    padding: 2rem 7%;
+    border-radius: 1.25rem;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+}
+
+.game-result-card { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+
+.guest-popup-content h2,
+.incoming-popup-card h2,
+.game-result-card h2,
+.result-popup-card h2,
+.room-error-popup h2 {
+    width: fit-content;
+    max-width: 100%;
+    margin: 0 auto 0.75rem;
+    color: #344436;
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    overflow-wrap: break-word;
+}
+
+.game-result-card h2 { font-size: 1.75rem; }
+
+.guest-popup-content p,
+.incoming-popup-card p,
+.game-result-card p,
+.result-popup-card p,
+.room-error-popup p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin: 0 0 1.25rem;
+}
+
+.result-popup-card p { margin: 0; }
+
+/* Full-width buttons inside popups */
+.guest-popup-content .btn,
+.incoming-popup-card .btn,
+.game-result-card .btn,
+.room-error-popup .btn,
+.room-error-popup button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2.75rem;
+    margin-top: 0.6rem;
+    padding: 0.75rem 1rem;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.game-result-card .btn { margin-top: 1.5rem; }
+
+#profileValidationPopup .guest-popup-content {
+    max-width: 23rem;
+}

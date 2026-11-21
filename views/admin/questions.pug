@@ -1,0 +1,109 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+    link(rel="stylesheet", href="/css/admin.css")
+
+block content
+    - const activePage = 'questions'
+
+    .app-shell
+        include ../sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow ADMIN
+                    h1 Manage questions
+                    p.subtitle Add, edit, delete and illustrate quiz questions.
+                a.btn.btn-light(href="/admin") Back to dashboard
+
+            section.panel
+                .panel-heading
+                    div
+                        h2#questionFormTitle Add a new question
+                        p.subtitle The correct answer must exactly match one of the four options.
+                    button#cancelEditBtn.btn.btn-light(type="button", hidden) Cancel edit
+
+                form#questionForm.admin-question-form(novalidate)
+                    input#questionIdInput(type="hidden", name="question_id", value="")
+
+                    .form-group
+                        label(for="questionText") Question text
+                        textarea#questionText(name="question_text", rows="4", required)
+
+                    .admin-options-grid
+                        .form-group
+                            label(for="optionA") Option A
+                            input#optionA(type="text", name="option_a", required)
+                        .form-group
+                            label(for="optionB") Option B
+                            input#optionB(type="text", name="option_b", required)
+                        .form-group
+                            label(for="optionC") Option C
+                            input#optionC(type="text", name="option_c", required)
+                        .form-group
+                            label(for="optionD") Option D
+                            input#optionD(type="text", name="option_d", required)
+
+                    .form-group
+                        label(for="correctAnswerToggle") Correct answer
+                        .custom-select#correctAnswerWrapper
+                            button#correctAnswerToggle.custom-select-toggle(type="button")
+                                span#correctAnswerLabel Select the correct option above
+                                span.custom-select-arrow
+                            ul#correctAnswerList.custom-select-list(role="listbox", hidden)
+                            input#correctAnswer(type="hidden", name="correct_answer", required)
+                        p.helper-text Pick the option whose text is correct — not a fixed A/B/C/D slot. Options are shown in random order to players.
+
+                    .form-group
+                        label(for="questionImage") Question image (optional)
+                        input#questionImage(type="file", name="image", accept="image/png,image/jpeg,image/webp,image/gif")
+                        .admin-image-row
+                            img#imagePreview.admin-image-preview(src="", alt="Current image", hidden)
+                            label.admin-remove-image(for="removeImage")
+                                input#removeImage(type="checkbox", name="remove_image", value="true", hidden)
+                                span#removeImageLabel(hidden) Remove current image
+
+                    button.btn.btn-primary(type="submit") Save question
+
+            section.panel
+                .panel-heading
+                    div
+                        h2 All questions
+                        p#questionCount.subtitle Loading…
+
+                .history-table-container
+                    table.history-table.admin-questions-table
+                        colgroup
+                            col.col-question
+                            col.col-answer
+                            col.col-image
+                            col.col-status
+                            col.col-action
+                        thead
+                            tr
+                                th Question
+                                th Correct answer
+                                th Image
+                                th status
+                                th Action
+                        tbody#questionsTableBody
+                            tr
+                                td(colspan="5") Loading questions...
+
+    #deleteConfirmPopup.guest-popup(style="display: none")
+        .guest-popup-content(role="alertdialog", aria-modal="true")
+            h2 Remove this question?
+            p It will be taken out of the active question pool and won't be asked in new games. You can restore it anytime from this page.
+            button#confirmDeleteBtn.btn.btn-delete.btn-full(type="button") Remove question
+            button#cancelDeleteBtn.btn.btn-light.btn-full(type="button") Cancel
+    
+    #questionResultPopup.guest-popup(style="display: none")
+        .guest-popup-content
+            h2#questionResultTitle Success
+            p#questionResultMessage
+            button#closeQuestionResultBtn.btn.btn-primary.btn-full(type="button") OK
+block scripts
+    script(src="/js/sidebar.js")
+    script(src="/js/admin-questions.js")

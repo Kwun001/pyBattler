@@ -1,0 +1,49 @@
+extends ../layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+    link(rel="stylesheet", href="/css/admin.css")
+
+block content
+    - const activePage = 'players'
+
+    .app-shell
+        include ../sidebar.pug
+
+        main.page-main
+            header.page-header
+                div
+                    p.eyebrow ADMIN
+                    h1 Players
+                    p.subtitle Search by username or email.
+                a.btn.btn-light(href="/admin") Back to dashboard
+
+            form.panel.admin-search-form(action="/admin/players", method="GET")
+                .form-group
+                    label(for="search") Search
+                    input#search(type="text", name="search", value=search, placeholder="Username or email")
+                button.btn.btn-primary(type="submit") Search
+
+            section.panel
+                .history-table-container
+                    if players.length > 0
+                        table.history-table
+                            thead
+                                tr
+                                    th Username
+                                    th Email
+                                    th Role
+                                    th Action
+                            tbody
+                                each p in players
+                                    tr
+                                        td= p.username
+                                        td= p.email
+                                        td= p.role
+                                        td
+                                            a.btn.btn-light.btn-view(href='/admin/players/' + p.user_id + '/history') View history
+                    else
+                        p.empty-history No players found.
+
+block scripts
+    script(src="/js/sidebar.js")

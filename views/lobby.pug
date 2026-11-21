@@ -1,0 +1,93 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/app.css")
+
+
+block content
+    .app-shell
+        aside.sidebar
+            a.brand(href="/rooms")
+                span.brand-mark py
+                span pyBattler
+
+            nav.main-nav
+                a.nav-link.active(href="/rooms") Play
+                a#profileLink.nav-link(href="/profile", data-guest=isGuest ? 'true' : 'false') My profile
+            .sidebar-bottom
+                p.small-label ROOM HOST
+                p Check that everyone is ready before starting.
+
+        main.page-main
+            header.page-header
+                div
+                    a.back-link(href="/rooms") Back to rooms
+                    p.eyebrow ROOM LOBBY
+                    h1 Waiting for players
+                    p.subtitle Share the code and get your team ready.
+                span#roomStatus.status-pill ● #{room.status}
+
+            section.room-code-card
+                div
+                    p.small-label ROOM CODE
+                    h2= room.room_code
+                    p.subtitle Share this code with the other players.
+                button#copyCode.btn.btn-light(
+                    type="button",
+                    data-room-code=room.room_code
+                ) Copy code
+
+            section.panel
+                .panel-heading
+                    div
+                        h2 Players
+                            span.count#playerCount #{participants.length}/#{room.max_players}
+                        p.subtitle At least 2 players are needed to start.
+                    span#joinedCount.status-pill #{participants.length} joined
+
+                .player-list#playerList(data-room-id=room.room_id, data-participant-id=currentParticipant ? currentParticipant.participant_id :'')
+                    each participant in participants
+                        .player-row
+                            span.player-avatar.avatar-purple= participant.player_name.charAt(0).toUpperCase()
+
+                            div.player-details
+                                strong= currentParticipant && participant.participant_id === currentParticipant.participant_id ? 'You' : participant.player_name
+
+                                if hostParticipant && participant.participant_id === hostParticipant.participant_id
+                                    span.host-label HOST
+                                else
+                                    span Player
+
+                            span.ready-label.ready Joined
+
+                .lobby-actions
+                    form(action=`/lobby/${room.room_id}/leave`, method="POST")
+                        button.btn.btn-light(type="submit") Leave room
+
+                    form#startForm(
+                        action="/lobby/" + room.room_id + "/start",
+                        method="post",
+                        hidden=!(currentParticipant && hostParticipant && currentParticipant.participant_id === hostParticipant.participant_id)
+                    )
+                        button#startButton.btn.btn-primary(
+                            type="submit",
+                            disabled=participants.length < 2 || room.status !== 'Waiting'
+                        ) Start battle
+
+                    p#waitingMessage.helper-text(
+                        hidden=currentParticipant && hostParticipant && currentParticipant.participant_id === hostParticipant.participant_id
+                    ) Waiting for the host to start the battle.
+
+            p.helper-text#lobbyMessage
+                | Waiting for players to join. At least 2 players are required to start.
+
+    // Guest registration popup
+    #guestProfilePopup.guest-popup(style="display: none")
+        .guest-popup-content(role="alertdialog", aria-modal="true")
+            h2 Register an account
+            p Please register an account to access your profile and save your game history.
+            button#registerGuest.btn.btn-primary.btn-full(type="button") Register
+            button#closeGuestPopup.btn.btn-light.btn-full(type="button") Cancel
+
+block scripts
+    script(src="/js/lobby.js")

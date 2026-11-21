@@ -1,0 +1,49 @@
+extends layout.pug
+
+block styles
+    link(rel="stylesheet", href="/css/flow.css")
+
+
+block content
+    main.flow-page
+        a.brand(href="/rooms")
+            span.brand-mark py
+            span pyBattler
+
+        section.flow-card.result-card
+            p.eyebrow BATTLE RESULTS
+            h1 Battle completed!
+            p.subtitle Here are the results of this battle.
+
+            if currentParticipant
+
+                .result-points
+                span= currentParticipant.score
+                small points earned
+
+                .result-stats
+                div
+                    span Your rank
+                    strong ##{currentRank}
+                div
+                    span Your score
+                    strong #{currentParticipant.score} pts
+                div
+                    span Your HP
+                    strong #{currentParticipant.hp} HP
+
+            else
+                p.subtitle Your participant record could not be found.
+
+             h2 Final Rankings
+
+            .result-stats
+                each participant, index in participants
+                    div
+                        span #{index + 1}. #{participant.player_name}
+                        strong #{participant.score} pts
+
+            a.btn.btn-primary.btn-full(href="/game/" + room_id) Return to battle
+            a.text-link(href="/leaderboard") View leaderboard
+
+        p.flow-footer Results are retrieved from the database.
