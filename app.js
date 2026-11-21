@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 // 1. Import Dependencies
 const express = require('express');
 const session = require('express-session');
