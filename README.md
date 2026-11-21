@@ -32,15 +32,13 @@ Players use physical cards with QR codes to perform actions during the game. Bef
 
 ### 1. Game Cards
 
-There are three types of cards:
+The game uses three types of physical cards:
 
-| Card Type | Action                              |
-
-| Attack    | Deal 10 HP damage to another player |
-
-| Defense   | Block an incoming attack            |
-
-| Recovery  | Restore 5 HP                        |
+| Card Type | Action |
+|-----------|--------|
+| Attack    | Deal 10 HP damage to another player. |
+| Defense   | Block an incoming attack. |
+| Recovery  | Restore 5 HP. |
 
 Each card type has 10 cards, making a total of 30 cards.
 
