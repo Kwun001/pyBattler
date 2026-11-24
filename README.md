@@ -208,9 +208,7 @@ pyBattler/
 │
 ├── public/
 │   ├── css/
-│   ├── js/
-│   └── images/
-│       └── cards/
+│   └── js/
 │
 ├── routes/
 │
